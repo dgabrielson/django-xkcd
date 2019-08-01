@@ -1,0 +1,35 @@
+{% extends 'xkcd/index.html' %}
+
+{% load tz %}
+
+{# ########################################################## #}
+
+{% block page_title %}xkcd: Comics for {{ year }}{% endblock %}
+{% block title %}Comics for {{ year }}{% endblock %}
+
+{# ########################################################## #}
+
+{% block xkcd_content %}
+
+    {% localtime off %}
+        <p>
+            <a href="{% url 'xkcd-archive-index' %}">
+                Archive Index
+            </a>
+        </p>
+        
+        <h3>Search the archives by selecting a month:</h3>
+        <ul>
+            {% for dt in date_list reversed %}
+                <li>
+                    <a href="{% url 'xkcd-month-archive' year=dt.year month=dt.month %}">
+                        {{ dt|date:"F" }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endlocaltime %}
+
+{% endblock %}
+
+{# ########################################################## #}

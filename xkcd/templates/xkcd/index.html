@@ -1,0 +1,31 @@
+{% extends 'site_base.html' %}
+
+
+{% block navigation_items %}
+    {{ block.super }}
+    <li>
+        <a href="{% url 'xkcd-archive-index' %}">
+            xkcd
+        </a>
+    </li>
+{% endblock %}
+
+{% block head_title %}{{ block.super }} - {% block page_title %}{% endblock page_title %}{% endblock head_title %}
+
+{% block content %}
+
+    <section>
+        <h1>{% block title %}XKCD TITLE{% endblock title %}</h1>
+        {% block xkcd_content %}
+            XKCD CONTENT
+        {% endblock xkcd_content %}
+    </section>
+    
+    <section>
+        <small>
+            All xkcd comics are Copyright © Randall Monroe and are being mirrored
+            from <a href="http://xkcd.com">xkcd.com</a>.
+        </small>
+    </section>
+
+{% endblock content %}

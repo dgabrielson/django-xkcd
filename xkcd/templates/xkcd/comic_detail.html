@@ -1,0 +1,110 @@
+{% extends 'xkcd/index.html' %}
+
+
+{# ########################################################## #}
+
+{% block page_title %}xkcd: {{ object }}{% endblock %}
+{% block title %}{{ object }}{% endblock %}
+
+{# ########################################################## #}
+
+{% block xkcd_content %}
+
+    <p style="text-align:center">
+        {% with prev=object.get_previous_by_date %}
+            {% if prev %}
+                <a href="{{ prev.get_absolute_url }}">
+                    &larr; Previous
+                </a>
+                &nbsp;&nbsp; 
+            {% endif %}
+        {% endwith %}
+    
+        <a href="{% url 'xkcd-archive-index' %}">
+            Archive
+        </a>
+    
+        {% with next=object.get_next_by_date %}
+            {% if next %}
+                &nbsp;&nbsp; 
+                <a href="{{ next.get_absolute_url }}">
+                    Next &rarr;
+                </a>
+            {% endif %}
+        {% endwith %}
+    </p>
+    
+    <div id="xkcdcomic">
+        {% if object.local_img %}<!-- local -->
+            <span style="position: relative; left: {{ '250'|add:image_offset }}px;">
+                <img src="{{ object.local_img.url }}" height="{{ object.local_img.height }}" width="{{ object.local_img.width }}" alt="{{ object.alt }}">
+            </span>
+        {% else %}<!-- remote -->
+            <img src="{{ object.img }}" alt="{{ object.alt }}">
+        {% endif %}
+    </div>
+    
+    <h2 id="altTextLink" style="text-align:center">alt text &darr;</h2>
+    <div id="altText">
+        <p>
+            <div class="highlight">
+                {{ object.alt }}
+            </div>
+        </p>
+    </div>
+    
+    {% if object.link %}
+        <p>
+            <a href="{{ object.link }}">{{ object.link }} &rarr;</a>
+        </p>
+    {% endif %}
+    
+    {% if object.news %}
+        <small>news</small>
+        <p>
+            {{ object.news|safe }}
+        </p>
+    {% endif %}
+  
+    {% if object.local_img.height > 500 %}
+        <p style="text-align:center">
+            {% with prev=object.get_previous_by_date %}
+                {% if prev %}
+                    <a href="{{ prev.get_absolute_url }}">
+                        &larr; Previous
+                    </a>
+                    &nbsp;&nbsp; 
+                {% endif %}
+            {% endwith %}
+        
+            <a href="{% url 'xkcd-archive-index' %}">
+                Archive
+            </a>
+        
+            {% with next=object.get_next_by_date %}
+                {% if next %}
+                    &nbsp;&nbsp; 
+                    <a href="{{ next.get_absolute_url }}">
+                        Next &rarr;
+                    </a>
+                {% endif %}
+            {% endwith %}
+        </p>
+    {% endif %}
+    
+    <script type="text/javascript">
+        window.onload = function() {
+            updateFunction = function()
+            {
+                el = document.getElementById("altText"); 
+                el.style.display = (el.style.display != "none" ? "none" : "block");
+            }
+            document.getElementById("xkcdcomic").onclick = updateFunction;
+            document.getElementById("altTextLink").onclick = updateFunction;
+            document.getElementById("altText").style.display = "none";
+        }
+    </script>
+
+{% endblock %}
+
+{# ########################################################## #}

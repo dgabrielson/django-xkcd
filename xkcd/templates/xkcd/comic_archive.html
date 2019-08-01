@@ -1,0 +1,39 @@
+{% extends 'xkcd/index.html' %}
+
+{% load tz %}
+
+{# ########################################################## #}
+
+{% block page_title %}Latest Comics{% endblock %}
+{% block title %}Latest Comics{% endblock %}
+
+{# ########################################################## #}
+
+{% block xkcd_content %}
+
+    {% localtime off %}
+        <ul>
+        {% for obj in latest %}
+            <li>
+                <a href="{{ obj.get_absolute_url }}">
+                    {{ obj }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+        
+        <h3>Search the archives by selecting a year:</h3>
+        <ul>
+            {% for dt in date_list %}
+                <li>
+                    <a href="{% url 'xkcd-year-archive' year=dt.year %}">
+                        {{ dt|date:"Y" }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endlocaltime %}
+
+{% endblock %}
+
+{# ########################################################## #}

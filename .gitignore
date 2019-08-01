@@ -1,0 +1,13 @@
+venv/
+build/
+dist/
+
+xkcd/demo_site/demo.db
+xkcd/demo_site/__media
+xkcd/demo_site/__static
+
+
+*.egg-info
+*.pyc
+*~
+.DS_Store
